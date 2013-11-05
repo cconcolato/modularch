@@ -28,6 +28,7 @@
 #include "module.hpp"
 
 #include <iostream>
+#include <list>
 
 
 namespace ModulArch {
@@ -39,13 +40,15 @@ public:
 	void stop();
 
 	//TODO: since this is std graph management, move it in a separate class
-	bool createModule(const std::string& url);
+	bool createModule(const std::string &url);
 
 	//take module ownership //FIXME: leaks
 	bool addModule(Module *module);
 
 private:
 	Graph();
+
+	std::list<Module*> modules; //TODO: graph  +  provide an impl to remove the warning.
 };
 
 }

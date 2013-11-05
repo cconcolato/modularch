@@ -26,13 +26,21 @@
 
 #include "config.hpp"
 
-#include <iostream>
+//#include <string>
+#include <vector>
 
 
 namespace ModulArch {
 
 class EXPORT Module {
-	//TODO: must be an interface + delegate
+public:
+	/**
+	 * The data is allocated here when needed, and deleted here once used. FIXME: move to an allocator.
+	 * Return true when data were processed.
+	 */
+	virtual std::vector<char*>& process(std::vector<char*> &in) = 0;
+
+	//FIXME: static virtual bool handles(const std::string &url) = 0;
 };
 
 }

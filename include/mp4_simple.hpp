@@ -32,12 +32,12 @@ namespace ModulArch {
 
 class MP4_Simple : public Module {
 public:
-	static MP4_Simple *create() {
-		return new MP4_Simple();
-	}
+	static MP4_Simple* create() ;
+	std::vector<char*>& process(std::vector<char*> &in);
+	static bool handles(const std::string &url);
 
 private:
-	MP4_Simple() {}
+	MP4_Simple();
 };
 
 }

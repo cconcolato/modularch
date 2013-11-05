@@ -21,9 +21,32 @@
  *
  */
 
+#include "mp4_simple.hpp"
+
+#include <string>
+
 
 namespace ModulArch {
 
+MP4_Simple::MP4_Simple() {
+}
+
+MP4_Simple* MP4_Simple::create() {
+	return new MP4_Simple();
+}
+
+std::vector<char*>& MP4_Simple::process(std::vector<char*> &in) {
+	//TODO
+	return in;
+}
+
+bool MP4_Simple::handles(const std::string &url) {
+	if (url.find_last_of("mp4")+1 == url.size()) {
+		return true;
+	} else {
+		return false;
+	}
+}
 
 }
 

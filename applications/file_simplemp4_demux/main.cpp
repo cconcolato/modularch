@@ -26,6 +26,7 @@
 #include <iostream>
 
 
+//FIXME error cases leak
 int main(int argc, char **argv)
 {
 	bool sync;
@@ -37,7 +38,7 @@ int main(int argc, char **argv)
 		ModulArch::Log::get(ModulArch::Log::Error) << "You must provide at least one argument" << std::endl;
 		return 1;
 	}
-	fn = argv[0];
+	fn = argv[1];
 
 	//create a graph
 	ModulArch::Graph *graph = ModulArch::Graph::create();

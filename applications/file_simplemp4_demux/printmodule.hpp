@@ -24,12 +24,25 @@
 #ifndef _MODULARCH_PRINTMODULE_HPP_
 #define _MODULARCH_PRINTMODULE_HPP_
 
+#include <modularch.hpp>
+
+
 namespace ModulArch {
 
 class PrintModule : public Module {
 public:
-	static PrintModule *create() {
+	static PrintModule* create() {
 		return new PrintModule();
+	}
+
+	std::vector<char*>& process(std::vector<char*> &in) {
+		Log::get(ModulArch::Log::Error) << "PrintModule: received data of size: " << in.size() << std::endl;
+		//FIXME: implicit passthru
+		return in;
+	}
+
+	static bool handles(const std::string &url) {
+		return true;
 	}
 
 private:

@@ -24,20 +24,24 @@
 #ifndef _MODULARCH_FILE_HPP_
 #define _MODULARCH_FILE_HPP_
 
-#include <log.hpp>
 #include <module.hpp>
+
+#include <string>
 
 
 namespace ModulArch {
 
 class File : public Module {
 public:
-	static File *create() {
-		return new File();
-	}
+	static File* create(const std::string &fn);
+	std::vector<char*>& process(std::vector<char*> &in);
+	static bool handles(const std::string &url);
 
 private:
-	File() {}
+	File(FILE *file);
+	~File();
+
+	FILE *file;
 };
 
 }

@@ -21,9 +21,53 @@
  *
  */
 
+#include "file.hpp"
+#include "log.hpp"
+
+
+#define IOSIZE 16384
+
 
 namespace ModulArch {
+	
+File::File(FILE *file)
+	: file(file) {
+}
+	
+File::~File() {
+	fclose(file);
+}
 
+File* File::create(const std::string &fn) {
+	FILE *f = fopen(fn.c_str(), "rb");
+	if (!f) {
+		Log::get(ModulArch::Log::Error) << "Can't open file: " << fn << std::endl;
+		return NULL;
+	} else {
+		return new File(f);
+	}
+}
+
+std::vector<char*>& File::process(std::vector<char*> &in) {
+	if (in.size()) {
+		//FIXME
+		Log::get(ModulArch::Log::Error) << "Module File doesn't take any input!" << std::endl;
+		in.clear();
+	}
+
+	std::vector<char*> &data = in;
+	data.resize(IOSIZE);
+	size_t read = fread(data.data(), 1, IOSIZE, file);
+	if (read < IOSIZE) {
+		data.resize(read);
+	}
+
+	return data;
+}
+
+bool File::handles(const std::string &url) {
+	return true;
+}
 
 }
 

@@ -24,6 +24,7 @@
 #include "graph.hpp"
 
 //FIXME: hardcoded
+#include "file.hpp"
 #include "mp4_simple.hpp"
 
 
@@ -32,24 +33,42 @@ namespace ModulArch {
 Graph::Graph() {
 }
 
-Graph *Graph::create() {
+Graph* Graph::create() {
 	return new Graph();
 }
 
 bool Graph::run(const bool sync) {
+	if (!sync) {
+		//TODO
+		return false;
+	} else {
+		std::vector<char*> data;
+		do {
+			data.clear();
+			for (auto module=modules.begin(); module!=modules.end(); ++module) {
+				data = (*module)->process(data);
+			}
+		} while (data.size());
+	}
+
 	return true;
 }
 
 void Graph::stop() {
 }
 
-bool Graph::createModule(const std::string& url) {
-	//TODO: if "is a file", then:
-	return addModule(MP4_Simple::create());
+bool Graph::createModule(const std::string &url) {
+	if (File::handles(url)) {
+		return addModule(File::create(url));
+	} else if (MP4_Simple::handles(url)) {
+		return addModule(MP4_Simple::create());
+	} else {
+		return false;
+	}
 }
 
 bool Graph::addModule(Module *module) {
-	//TODO
+	modules.push_back(module);
 	return true;
 }
 
