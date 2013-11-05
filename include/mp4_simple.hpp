@@ -27,17 +27,31 @@
 #include <log.hpp>
 #include <module.hpp>
 
+extern "C" {
+#include <gpac/tools.h>
+#include <gpac/isomedia.h>
+}
+
 
 namespace ModulArch {
 
 class MP4_Simple : public Module {
 public:
-	static MP4_Simple* create() ;
+	static MP4_Simple* create(const std::string &fn) ;
 	std::vector<char*>& process(std::vector<char*> &in);
 	static bool handles(const std::string &url);
 
 private:
-	MP4_Simple();
+	MP4_Simple(GF_ISOFile *movie);
+	~MP4_Simple();
+
+	void deleteLastSample();
+
+	GF_ISOFile *movie;
+	u32 track_number;
+
+	GF_ISOSample *iso_sample;
+	u32 sample_index, sample_count;
 };
 
 }

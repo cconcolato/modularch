@@ -32,6 +32,12 @@ namespace ModulArch {
 	
 Graph::Graph() {
 }
+	
+Graph::~Graph() {
+	for (auto module=modules.begin(); module!=modules.end(); ++module) {
+		delete (*module);
+	}
+}
 
 Graph* Graph::create() {
 	return new Graph();
@@ -58,10 +64,10 @@ void Graph::stop() {
 }
 
 bool Graph::createModule(const std::string &url) {
-	if (File::handles(url)) {
+	if (MP4_Simple::handles(url)) {
+		return addModule(MP4_Simple::create(url));
+	} else if (File::handles(url)) {
 		return addModule(File::create(url));
-	} else if (MP4_Simple::handles(url)) {
-		return addModule(MP4_Simple::create());
 	} else {
 		return false;
 	}
