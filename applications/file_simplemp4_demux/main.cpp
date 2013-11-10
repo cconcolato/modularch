@@ -21,7 +21,7 @@
  *
  */
 
-#include <modularch.hpp>
+#include <modularch/modularch.hpp>
 #include "printmodule.hpp"
 #include <iostream>
 

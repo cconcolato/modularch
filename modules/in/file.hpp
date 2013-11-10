@@ -24,7 +24,7 @@
 #ifndef _MODULARCH_FILE_HPP_
 #define _MODULARCH_FILE_HPP_
 
-#include <module.hpp>
+#include <modularch/module.hpp>
 
 #include <string>
 

@@ -24,7 +24,7 @@
 #ifndef _MODULARCH_PRINTMODULE_HPP_
 #define _MODULARCH_PRINTMODULE_HPP_
 
-#include <modularch.hpp>
+#include <modularch/modularch.hpp>
 
 
 namespace ModulArch {
@@ -36,7 +36,7 @@ public:
 	}
 
 	std::vector<char*>& process(std::vector<char*> &in) {
-		Log::get(ModulArch::Log::Error) << "PrintModule: received data of size: " << in.size() << std::endl;
+		Log::get(Log::Error) << "PrintModule: received data of size: " << in.size() << std::endl;
 		//FIXME: implicit passthru
 		return in;
 	}

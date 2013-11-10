@@ -21,8 +21,9 @@
  *
  */
 
+#include <modularch/log.hpp>
+
 #include "file.hpp"
-#include "log.hpp"
 
 
 #define IOSIZE 16384
@@ -41,7 +42,7 @@ File::~File() {
 File* File::create(const std::string &fn) {
 	FILE *f = fopen(fn.c_str(), "rb");
 	if (!f) {
-		Log::get(ModulArch::Log::Error) << "Can't open file: " << fn << std::endl;
+		Log::get(Log::Error) << "Can't open file: " << fn << std::endl;
 		return NULL;
 	} else {
 		return new File(f);
@@ -51,7 +52,7 @@ File* File::create(const std::string &fn) {
 std::vector<char*>& File::process(std::vector<char*> &in) {
 	if (in.size()) {
 		//FIXME
-		Log::get(ModulArch::Log::Error) << "Module File doesn't take any input!" << std::endl;
+		Log::get(Log::Error) << "Module File doesn't take any input!" << std::endl;
 		in.clear();
 	}
 

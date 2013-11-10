@@ -7,21 +7,36 @@
     <Filter Include="demux">
       <UniqueIdentifier>{a0799ea8-91cc-4951-a055-98aa1de75b5e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="decode">
+      <UniqueIdentifier>{dccd5e1f-41ff-4064-893d-d8e692d8f274}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\modules\in\file.cpp">
       <Filter>in</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\modules\demux\mp4_gpac_simple.cpp">
+    <ClCompile Include="..\..\modules\demux\gpac_mp4_simple.cpp">
       <Filter>demux</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\demux\libavformat_55.cpp">
+      <Filter>demux</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\decode\libavcodec_55.cpp">
+      <Filter>decode</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\modules\in\file.hpp">
       <Filter>in</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\modules\demux\mp4_gpac_simple.hpp">
+    <ClInclude Include="..\..\modules\demux\gpac_mp4_simple.hpp">
       <Filter>demux</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\demux\libavformat_55.hpp">
+      <Filter>demux</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\decode\libavcodec_55.hpp">
+      <Filter>decode</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
