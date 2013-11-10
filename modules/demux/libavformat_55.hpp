@@ -21,34 +21,33 @@
  *
  */
 
-#ifndef _MODULARCH_PRINTMODULE_HPP_
-#define _MODULARCH_PRINTMODULE_HPP_
+#ifndef _MODULARCH_LIBAVFORMAT_55_HPP_
+#define _MODULARCH_LIBAVFORMAT_55_HPP_
 
-#include <modularch/modularch.hpp>
+#include <modularch/log.hpp>
+#include <modularch/module.hpp>
+
+struct AVFormatContext;
+struct AVPacket;
 
 
 namespace ModulArch {
 
-class PrintModule : public Module {
+class Libavformat_55 : public Module {
 public:
-	static PrintModule* create() {
-		return new PrintModule();
-	}
-
-	std::vector<char*>& process(std::vector<char*> &in) {
-		Log::get(Log::Error) << "PrintModule: received data of size: " << in.size() << std::endl;
-		//FIXME: implicit passthru
-		return in;
-	}
-
-	static bool handles(const std::string &url) {
-		return true;
-	}
+	static Libavformat_55* create(const std::string &url) ;
+	std::vector<char*>& process(std::vector<char*> &in);
+	static bool canHandle(const std::string &url);
 
 private:
-	PrintModule() {}
+	Libavformat_55(struct AVFormatContext *formatCtx);
+	~Libavformat_55();
+
+  struct AVFormatContext *formatCtx;
+  struct AVPacket *pkt;
 };
 
 }
 
 #endif
+

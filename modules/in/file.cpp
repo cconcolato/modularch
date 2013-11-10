@@ -66,7 +66,7 @@ std::vector<char*>& File::process(std::vector<char*> &in) {
 	return data;
 }
 
-bool File::handles(const std::string &url) {
+bool File::canHandle(const std::string &url) {
 	return true;
 }
 

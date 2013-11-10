@@ -21,9 +21,6 @@
     <ClCompile Include="..\..\modules\demux\libavformat_55.cpp">
       <Filter>demux</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\modules\decode\libavcodec_55.cpp">
-      <Filter>decode</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\modules\in\file.hpp">
@@ -34,9 +31,6 @@
     </ClInclude>
     <ClInclude Include="..\..\modules\demux\libavformat_55.hpp">
       <Filter>demux</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\modules\decode\libavcodec_55.hpp">
-      <Filter>decode</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

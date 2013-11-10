@@ -26,6 +26,7 @@
 //FIXME: hardcoded -> module manager needed
 #include "modules/in/file.hpp"
 #include "modules/demux/gpac_mp4_simple.hpp"
+#include "modules/demux/libavformat_55.hpp"
 
 
 namespace ModulArch {
@@ -64,9 +65,11 @@ void Graph::stop() {
 }
 
 bool Graph::createModule(const std::string &url) {
-	if (GPAC_MP4_Simple::handles(url)) {
+	if (GPAC_MP4_Simple::canHandle(url)) {
 		return addModule(GPAC_MP4_Simple::create(url));
-	} else if (File::handles(url)) {
+	} else if (Libavformat_55::canHandle(url)) {
+		return addModule(Libavformat_55::create(url));
+	} else if (File::canHandle(url)) {
 		return addModule(File::create(url));
 	} else {
 		return false;

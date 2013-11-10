@@ -35,7 +35,7 @@ class File : public Module {
 public:
 	static File* create(const std::string &fn);
 	std::vector<char*>& process(std::vector<char*> &in);
-	static bool handles(const std::string &url);
+	static bool canHandle(const std::string &url);
 
 private:
 	File(FILE *file);

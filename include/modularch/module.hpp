@@ -40,7 +40,7 @@ public:
 	 */
 	virtual std::vector<char*>& process(std::vector<char*> &in) = 0;
 
-	//FIXME: static virtual bool handles(const std::string &url) = 0;
+	//FIXME: static virtual bool canHandle(const std::string &url) = 0;
 };
 
 }

@@ -19,13 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\modules\decode\libavcodec_55.cpp" />
     <ClCompile Include="..\..\modules\demux\gpac_mp4_simple.cpp" />
     <ClCompile Include="..\..\modules\demux\libavformat_55.cpp" />
     <ClCompile Include="..\..\modules\in\file.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\modules\decode\libavcodec_55.hpp" />
     <ClInclude Include="..\..\modules\demux\gpac_mp4_simple.hpp" />
     <ClInclude Include="..\..\modules\demux\libavformat_55.hpp" />
     <ClInclude Include="..\..\modules\in\file.hpp" />

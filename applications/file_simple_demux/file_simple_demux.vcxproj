@@ -22,6 +22,7 @@
     <ProjectGuid>{38E49996-8804-4074-BFC0-349C6AEF86CE}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>file_simplemp4_demux</RootNamespace>
+    <ProjectName>file_simple_demux</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

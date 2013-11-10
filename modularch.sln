@@ -8,7 +8,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libmodularch", "build\msvc1
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{63702A0B-DC77-4C35-8E77-A1071E255872}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "file_simplemp4_demux", "applications\file_simplemp4_demux\file_simplemp4_demux.vcxproj", "{38E49996-8804-4074-BFC0-349C6AEF86CE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "file_simple_demux", "applications\file_simple_demux\file_simple_demux.vcxproj", "{38E49996-8804-4074-BFC0-349C6AEF86CE}"
 	ProjectSection(ProjectDependencies) = postProject
 		{7235E591-5677-4731-B044-885CF922D295} = {7235E591-5677-4731-B044-885CF922D295}
 		{545CF7D8-9D4F-4C1A-A1F2-C8B3B57CA089} = {545CF7D8-9D4F-4C1A-A1F2-C8B3B57CA089}

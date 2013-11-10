@@ -93,7 +93,7 @@ std::vector<char*>& GPAC_MP4_Simple::process(std::vector<char*> &in) {
 	return in;
 }
 
-bool GPAC_MP4_Simple::handles(const std::string &url) {
+bool GPAC_MP4_Simple::canHandle(const std::string &url) {
 	if (url.find_last_of("mp4")+1 == url.size()) {
 		return true;
 	} else {

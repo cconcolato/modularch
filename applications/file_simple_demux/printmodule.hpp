@@ -21,40 +21,34 @@
  *
  */
 
-#ifndef _MODULARCH_GPAC_MP4_SIMPLE_HPP_
-#define _MODULARCH_GPAC_MP4_SIMPLE_HPP_
+#ifndef _MODULARCH_PRINTMODULE_HPP_
+#define _MODULARCH_PRINTMODULE_HPP_
 
-#include <modularch/log.hpp>
-#include <modularch/module.hpp>
-
-extern "C" {
-#include <gpac/tools.h>
-#include <gpac/isomedia.h>
-}
+#include <modularch/modularch.hpp>
 
 
 namespace ModulArch {
 
-class GPAC_MP4_Simple : public Module {
+class PrintModule : public Module {
 public:
-	static GPAC_MP4_Simple* create(const std::string &fn) ;
-	std::vector<char*>& process(std::vector<char*> &in);
-	static bool canHandle(const std::string &url);
+	static PrintModule* create() {
+		return new PrintModule();
+	}
+
+	std::vector<char*>& process(std::vector<char*> &in) {
+		Log::get(Log::Error) << "PrintModule: received data of size: " << in.size() << std::endl;
+		//FIXME: implicit passthru
+		return in;
+	}
+
+	static bool canHandle(const std::string &url) {
+		return true;
+	}
 
 private:
-	GPAC_MP4_Simple(GF_ISOFile *movie);
-	~GPAC_MP4_Simple();
-
-	void deleteLastSample();
-
-	GF_ISOFile *movie;
-	u32 track_number;
-
-	GF_ISOSample *iso_sample;
-	u32 sample_index, sample_count;
+	PrintModule() {}
 };
 
 }
 
 #endif
-
