@@ -37,7 +37,7 @@ class EXPORT Graph {
 public:
 	static Graph *create();
 	~Graph();
-	bool run(const bool sync); //sync deserves an enum: event loop thread, theading model
+	bool run(bool sync); //sync deserves an enum: event loop thread, theading model
 	void stop();
 
 	//TODO: since this is std graph management, move it in a separate class
