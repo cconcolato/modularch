@@ -21,7 +21,7 @@
  *
  */
 
-#include "mp4_simple.hpp"
+#include "mp4_gpac_simple.hpp"
 
 #include <string>
 

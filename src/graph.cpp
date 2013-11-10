@@ -23,9 +23,9 @@
 
 #include "graph.hpp"
 
-//FIXME: hardcoded
-#include "file.hpp"
-#include "mp4_simple.hpp"
+//FIXME: hardcoded -> module manager needed
+#include "modules/in/file.hpp"
+#include "modules/demux/mp4_gpac_simple.hpp"
 
 
 namespace ModulArch {

@@ -2,13 +2,23 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libmodularch", "build\msvc10\libmodularch.vcxproj", "{545CF7D8-9D4F-4C1A-A1F2-C8B3B57CA089}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7235E591-5677-4731-B044-885CF922D295} = {7235E591-5677-4731-B044-885CF922D295}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{63702A0B-DC77-4C35-8E77-A1071E255872}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "file_simplemp4_demux", "applications\file_simplemp4_demux\file_simplemp4_demux.vcxproj", "{38E49996-8804-4074-BFC0-349C6AEF86CE}"
 	ProjectSection(ProjectDependencies) = postProject
+		{7235E591-5677-4731-B044-885CF922D295} = {7235E591-5677-4731-B044-885CF922D295}
 		{545CF7D8-9D4F-4C1A-A1F2-C8B3B57CA089} = {545CF7D8-9D4F-4C1A-A1F2-C8B3B57CA089}
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "modules", "modules", "{6CD0A502-BCAD-43ED-B586-035BF50E01C9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "modularch", "modularch", "{AA4E8748-AA72-4E81-BCAD-CF530686E057}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "modules", "build\msvc10\modules.vcxproj", "{7235E591-5677-4731-B044-885CF922D295}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,11 +34,17 @@ Global
 		{38E49996-8804-4074-BFC0-349C6AEF86CE}.Debug|Win32.Build.0 = Debug|Win32
 		{38E49996-8804-4074-BFC0-349C6AEF86CE}.Release|Win32.ActiveCfg = Release|Win32
 		{38E49996-8804-4074-BFC0-349C6AEF86CE}.Release|Win32.Build.0 = Release|Win32
+		{7235E591-5677-4731-B044-885CF922D295}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7235E591-5677-4731-B044-885CF922D295}.Debug|Win32.Build.0 = Debug|Win32
+		{7235E591-5677-4731-B044-885CF922D295}.Release|Win32.ActiveCfg = Release|Win32
+		{7235E591-5677-4731-B044-885CF922D295}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{38E49996-8804-4074-BFC0-349C6AEF86CE} = {63702A0B-DC77-4C35-8E77-A1071E255872}
+		{7235E591-5677-4731-B044-885CF922D295} = {6CD0A502-BCAD-43ED-B586-035BF50E01C9}
+		{545CF7D8-9D4F-4C1A-A1F2-C8B3B57CA089} = {AA4E8748-AA72-4E81-BCAD-CF530686E057}
 	EndGlobalSection
 EndGlobal

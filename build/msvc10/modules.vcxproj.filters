@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="in">
+      <UniqueIdentifier>{3ac29ec3-1fdc-4dcf-8d37-8a9c6f7ffd93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="demux">
+      <UniqueIdentifier>{a0799ea8-91cc-4951-a055-98aa1de75b5e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\modules\in\file.cpp">
+      <Filter>in</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\demux\mp4_gpac_simple.cpp">
+      <Filter>demux</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\modules\in\file.hpp">
+      <Filter>in</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\demux\mp4_gpac_simple.hpp">
+      <Filter>demux</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

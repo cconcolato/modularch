@@ -13,26 +13,8 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\core">
-      <UniqueIdentifier>{0cecd446-cba9-49ce-826e-b00a9938925d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\demux">
-      <UniqueIdentifier>{152e78df-aec2-4266-baae-7544ac1c9ff5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\in">
-      <UniqueIdentifier>{066b7089-a2bb-4335-b84b-47194bc956f3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\core">
       <UniqueIdentifier>{13e4eed5-fb0f-4c2a-bcb5-b35f0aa68113}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\builtins">
-      <UniqueIdentifier>{ed55d769-5ea2-4634-8925-64a960cb3657}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\builtins\demux">
-      <UniqueIdentifier>{2ecfbcf8-5ca6-4017-89f3-7520b40426f8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\builtins\in">
-      <UniqueIdentifier>{c5f9fd7e-3097-489d-8e8f-bd3922b60899}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -48,28 +30,16 @@
     <ClInclude Include="..\..\include\module.hpp">
       <Filter>Header Files\core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\mp4_simple.hpp">
-      <Filter>Header Files\builtins\demux</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\file.hpp">
-      <Filter>Header Files\builtins\in</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\config.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\log.cpp">
-      <Filter>Source Files\core</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\graph.cpp">
-      <Filter>Source Files\core</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\mp4_simple.cpp">
-      <Filter>Source Files\demux</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\file.cpp">
-      <Filter>Source Files\in</Filter>
+    <ClCompile Include="..\..\src\log.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
