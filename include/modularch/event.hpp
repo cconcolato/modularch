@@ -26,6 +26,7 @@
 #include "config.hpp"
 #include "graph.hpp"
 #include "module.hpp"
+#include "data.hpp"
 
 #include <cassert> //TODO: remove when no code in the header anymore...
 #include <cstdint>
@@ -36,7 +37,6 @@
 namespace ModulArch {
 
 //TODO: I could have named it "attribute", was it for the enum Type...
-template<typename T>
 class Event {
 public:
 	enum Type {
@@ -45,25 +45,17 @@ public:
 		Process         /*process the data*/
 	};
 	
-	Event(Type type, const std::string &name, const T &value)
-	: type(type), name(name), value(value) {
-		uid = EventManager::g_uid++;
-	}
+	Event(Type type, const std::string &name, Data &value);
 
-	Type getType() const {
-		return type;
-	}
-
-	std::string getName() const {
-		return name;
-	}
+	Type getType() const;
+	std::string getName() const;
 
 private:
 	Event();
 	uint64_t uid;
 	Type type;
 	std::string name;
-	T value;
+	Data &value;
 };
 
 typedef uint64_t UID;
@@ -71,71 +63,20 @@ typedef uint64_t UID;
 //TODO: really looks like a module
 class EXPORT EventManager {
 public:
-	static EventManager* create() {
-		return new EventManager();
-	}
+	static EventManager* create();
 
-	void addModule(Module *module) {
-		modules.push_back(module);
-	}
+	void addModule(Module *module);
 
-	template<typename T>
-	bool process(const Event<T> &e) {
-		switch (e.getType()) {
-			case Event<T>::Connection:
-				return connectInternal(e);
-			case Event<T>::Dispatch:
-				return dispatchInternal(e);
-			case Event<T>::Process:
-				return processInternal(e);
-		}
-
-		return false;
-	}
+	bool process(const Event &e);
 
 	static UID g_uid;//TODO: improve
 
 private:
-	EventManager() {
-	}
+	EventManager();
 
-	template<typename T>
-	bool connectInternal(const Event<T> &e) {
-		Module *module = NULL;
-		//Do we carry a module able to handle this type?
-		for (auto m=modules.begin(); m!=modules.end(); ++m) {
-			if ((*m)->handles(e.getName())) {
-				module = *m;
-				break;
-			}
-		}
-		if (!module) {
-#if 0 //Romain: TODO: don't have access right now, no module manager.
-			//Look in buildtins modules
-			module = Graph::createModule(*this, e.getName());
-			if (!module) {
-				Log::get(Log::Warning) << "Could not find any module for \"" << e.getName() << "\"." << std::endl;
-				assert(0);//we should have a default sink to avoid to leak
-				return false;
-			}
-#else
-			return false;
-#endif
-		}
-		return true;
-	}
-
-	template<typename T>
-	bool dispatchInternal(const Event<T> &e) {
-		assert(0); //TODO
-		return true;
-	}
-
-	template<typename T>
-	bool processInternal(const Event<T> &e) {
-		assert(0); //TODO
-		return true;
-	}
+	bool connectInternal(const Event &e);
+	bool dispatchInternal(const Event &e);
+	bool processInternal(const Event &e);
 
 	/**
 	 * Events to be processed by this event manager.

@@ -57,7 +57,7 @@ Libavformat_55* Libavformat_55::create(EventManager &eventManager, const std::st
 }
 
 void Libavformat_55::newAVPacketInternal() {
-  pkt = new AVPacket;
+  pkt = new AVPacket; //TODO: ask memory from an allocator, even if it is a ppol of AVPacket
 	av_init_packet(pkt);
 	av_free_packet(pkt);
 }
@@ -75,7 +75,7 @@ Libavformat_55::Libavformat_55(EventManager &eventManager, struct AVFormatContex
 			case AVMEDIA_TYPE_ATTACHMENT:
 			{
 				AVCodec *codec = avcodec_find_decoder(formatCtx->streams[i]->codec->codec_id);
-				Event<void*> e(Event<void*>::Connection, codec->name/*toStdString(i)*/, NULL);
+				Event e(Event::Connection, codec->name/*toStdString(i)*/, DataVoid());
 				if (!getEventManager().process(e)) {
 					Log::get(Log::Error) << "Module Libavformat_55: could not connect codec \"" << formatCtx->streams[i]->codec->codec_name << "\"." << std::endl;
 				  //TODO: throw exception, or ignore, or ...
@@ -97,10 +97,33 @@ Libavformat_55::~Libavformat_55() {
 	delete pkt;
 }
 
+class Libavformat_55_AVPacket : public Data {
+public:
+	Libavformat_55_AVPacket(AVPacket *pkt, void (*av_free_packet)(AVPacket*))
+		: pkt(pkt), deleter(av_free_packet) {
+	}
+
+	~Libavformat_55_AVPacket() {
+		deleter(pkt);
+	}
+
+	uint8_t* getData() {
+		return pkt->data;
+	}
+
+	uint64_t getSize() {
+		return pkt->size;
+	}
+
+private:
+	//TODO: use unique_ptr instead
+	void (*deleter)(AVPacket*);
+	AVPacket *pkt;
+};
+
 void Libavformat_55::dispatchInternal() {
-	typedef Data<AVPacket> T;
-	T *data = new T(pkt->data, pkt->size, av_free_packet, pkt);
-	Event<T*> e(Event<T*>::Dispatch, toStdString(pkt->stream_index), data);
+	Data *data = new Libavformat_55_AVPacket(pkt, av_free_packet);
+	Event e(Event::Dispatch, /*codec->name*/toStdString(pkt->stream_index), *data); //TODO: when Event are created
 	newAVPacketInternal();
 }
 

@@ -23,6 +23,7 @@
 #include "graph.hpp"
 
 #include "event.hpp"
+#include "data.hpp"
 
 //FIXME: hardcoded -> module manager needed
 #include "modules/in/file.hpp"
@@ -50,7 +51,8 @@ bool Graph::run(const bool sync) {
 		//TODO: async
 		return false;
 	} else {
-		Event<void*> e(Event<void*>::Process, "", NULL);
+		DataVoid data;
+		Event e(Event::Process, "", data);
 		for (auto eventManager=eventManagers.begin(); eventManager!=eventManagers.end(); ++eventManager) {
 			bool res;
 			do {

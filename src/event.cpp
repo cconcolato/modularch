@@ -24,45 +24,81 @@
 
 
 namespace ModulArch {
-	
-uint64_t EventManager::g_uid = 0;
 
-#if 0
-template <typename T>
-Event<T>::Event(Type type, const std::string &name, const T &value)
-	: type(type), name(name), value(value) {
-  uid = EventManager::g_uid++;
+Event::Event(Type type, const std::string &name, Data &value)
+: type(type), name(name), value(value) {
+	uid = EventManager::g_uid++;
 }
 
-template<typename T>
-typename Event<T>::Type Event<T>::getType() const {
+Event::Type Event::getType() const {
 	return type;
 }
 
-template<typename T>
-bool EventManager::dispatch(const Event<T> &e) {
-	assert(0); //TODO
-	return true;
+std::string Event::getName() const {
+	return name;
 }
 
-template<typename T>
-bool EventManager::connect(const Event<T> &e) {
-	assert(0); //TODO
-	return true;
+	
+uint64_t EventManager::g_uid = 0;
+
+EventManager* EventManager::create() {
+	return new EventManager();
 }
 
-template<typename T>
-bool EventManager::process(const Event<T> &e) {
+void EventManager::addModule(Module *module) {
+	modules.push_back(module);
+}
+
+bool EventManager::process(const Event &e) {
 	switch (e.getType()) {
-		case Event<T>::Connection:
-			return connect(e);
-		case Event<T>::Dispatch:
-			return dispatch(e);
+		case Event::Connection:
+			return connectInternal(e);
+		case Event::Dispatch:
+			return dispatchInternal(e);
+		case Event::Process:
+			return processInternal(e);
 	}
 
 	return false;
 }
+
+EventManager::EventManager() {
+}
+
+bool EventManager::connectInternal(const Event &e) {
+	Module *module = NULL;
+	//Do we carry a module able to handle this type?
+	for (auto m=modules.begin(); m!=modules.end(); ++m) {
+		if ((*m)->handles(e.getName())) {
+			module = *m;
+			break;
+		}
+	}
+	if (!module) {
+#if 0 //Romain: TODO: don't have access right now, no module manager.
+		//Look in buildtins modules
+		module = Graph::createModule(*this, e.getName());
+		if (!module) {
+			Log::get(Log::Warning) << "Could not find any module for \"" << e.getName() << "\"." << std::endl;
+			assert(0);//we should have a default sink to avoid to leak
+			return false;
+		}
+#else
+		return false;
 #endif
+	}
+	return true;
+}
+
+bool EventManager::dispatchInternal(const Event &e) {
+	assert(0); //TODO
+	return true;
+}
+
+bool EventManager::processInternal(const Event &e) {
+	assert(0); //TODO
+	return true;
+}
 
 }
 

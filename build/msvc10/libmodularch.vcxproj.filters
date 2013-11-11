@@ -20,9 +20,6 @@
     <ClCompile Include="..\..\src\event.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\data.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\module.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

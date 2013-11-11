@@ -24,6 +24,7 @@
 #define _MODULARCH_DATA_HPP_
 
 #include <cstdint>
+#include <cstdio>
 
 
 namespace ModulArch {
@@ -32,26 +33,23 @@ namespace ModulArch {
  * A generic data container.
  * Ownership is transferred to this container.
  */
-template<typename T>
 class Data {
+	virtual uint8_t* getData() = 0;
+	virtual uint64_t getSize() = 0;
+};
+
+class DataVoid : public Data {
 public:
-	Data(uint8_t *data, uint64_t size, void (*deleter)(T*), T *deletee)
-		: data(data), size(size), deleter(deleter), deletee(deletee) {
+	DataVoid() {
 	}
 
-	~Data() {
-		deleter(deletee);
+	uint8_t* getData() {
+		return NULL;
 	}
 
-private:
-	Data();
-
-	uint8_t *data;
-	uint64_t size;
-
-	//TODO: use unique_ptr instead
-	void (*deleter)(T*);
-	T *deletee;
+	uint64_t getSize() {
+		return 0;
+	}
 };
 
 }
