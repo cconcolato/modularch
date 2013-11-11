@@ -24,13 +24,15 @@
 #define _MODULARCH_GRAPH_HPP_
 
 #include "config.hpp"
-#include "module.hpp"
 
 #include <iostream>
-#include <list>
+#include <unordered_set>
 
 
 namespace ModulArch {
+
+class EventManager;
+class Module;
 
 class EXPORT Graph {
 public:
@@ -40,7 +42,7 @@ public:
 	void stop();
 
 	//TODO: since this is std graph management, move it in a separate class
-	bool createModule(const std::string &url);
+	bool createModule(EventManager &eventManager, const std::string &url);
 
 	//take module ownership //FIXME: leaks
 	bool addModule(Module *module);
@@ -48,7 +50,7 @@ public:
 private:
 	Graph();
 
-	std::list<Module*> modules; //TODO: graph  +  provide an impl to remove the warning.
+	std::unordered_set<EventManager*> eventManagers; //TODO: graph + provide an impl to remove the warning.
 };
 
 }

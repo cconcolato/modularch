@@ -30,8 +30,8 @@ namespace ModulArch {
 
 class PrintModule : public Module {
 public:
-	static PrintModule* create() {
-		return new PrintModule();
+	static PrintModule* create(EventManager &eventManager) {
+		return new PrintModule(eventManager);
 	}
 
 	std::vector<char*>& process(std::vector<char*> &in) {
@@ -40,12 +40,18 @@ public:
 		return in;
 	}
 
+	bool handles(const std::string &url) {
+		return PrintModule::canHandle(url);
+	}
+
 	static bool canHandle(const std::string &url) {
 		return true;
 	}
 
 private:
-	PrintModule() {}
+	PrintModule(EventManager &eventManager)
+	: Module(eventManager) {
+	}
 };
 
 }

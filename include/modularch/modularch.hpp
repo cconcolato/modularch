@@ -23,8 +23,9 @@
 #ifndef _MODULARCH_HPP_
 #define _MODULARCH_HPP_
 
-#include "modularch/graph.hpp"
+#include "graph.hpp"
 #include "log.hpp"
-#include "modularch/module.hpp"
+#include "module.hpp"
+#include "event.hpp"
 
 #endif

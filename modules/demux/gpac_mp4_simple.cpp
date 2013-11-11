@@ -27,7 +27,7 @@
 
 namespace ModulArch {
 
-GPAC_MP4_Simple* GPAC_MP4_Simple::create(const std::string &fn) {
+GPAC_MP4_Simple* GPAC_MP4_Simple::create(EventManager &eventManager, const std::string &fn) {
 	/* The ISO progressive reader */
 	GF_ISOFile *movie;
 	/* Number of bytes required to finish the current ISO Box reading */
@@ -39,7 +39,7 @@ GPAC_MP4_Simple* GPAC_MP4_Simple::create(const std::string &fn) {
 		return NULL;
 	}
 
-	return new GPAC_MP4_Simple(movie);
+	return new GPAC_MP4_Simple(eventManager, movie);
 }
 
 void GPAC_MP4_Simple::deleteLastSample() {
@@ -51,8 +51,8 @@ void GPAC_MP4_Simple::deleteLastSample() {
 	}
 }
 
-GPAC_MP4_Simple::GPAC_MP4_Simple(GF_ISOFile *movie)
-  : movie(movie), iso_sample(NULL) {
+GPAC_MP4_Simple::GPAC_MP4_Simple(EventManager &eventManager, GF_ISOFile *movie)
+  : Module(eventManager), movie(movie), iso_sample(NULL) {
 	u32 track_id = gf_isom_get_track_id(movie, 1); //FIXME should be a parameter? hence not processed in create() but in a stateful process? or a control module?
 	track_number = gf_isom_get_track_by_id(movie, track_id);
 	if (track_number == 0) {
@@ -90,6 +90,10 @@ std::vector<char*>& GPAC_MP4_Simple::process(std::vector<char*> &in) {
 		}
 	}
 	return in;
+}
+
+bool GPAC_MP4_Simple::handles(const std::string &url) {
+	return GPAC_MP4_Simple::canHandle(url);
 }
 
 bool GPAC_MP4_Simple::canHandle(const std::string &url) {

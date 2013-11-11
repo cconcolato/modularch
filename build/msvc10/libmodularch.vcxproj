@@ -163,8 +163,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\data.cpp" />
+    <ClCompile Include="..\..\src\event.cpp" />
     <ClCompile Include="..\..\src\graph.cpp" />
     <ClCompile Include="..\..\src\log.cpp" />
+    <ClCompile Include="..\..\src\module.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="modules.vcxproj">
@@ -173,10 +176,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\modularch\config.hpp" />
+    <ClInclude Include="..\..\include\modularch\data.hpp" />
+    <ClInclude Include="..\..\include\modularch\event.hpp" />
     <ClInclude Include="..\..\include\modularch\graph.hpp" />
     <ClInclude Include="..\..\include\modularch\log.hpp" />
     <ClInclude Include="..\..\include\modularch\modularch.hpp" />
     <ClInclude Include="..\..\include\modularch\module.hpp" />
+    <ClInclude Include="..\..\include\modularch\utils.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

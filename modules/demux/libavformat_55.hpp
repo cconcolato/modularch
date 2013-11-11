@@ -34,13 +34,17 @@ namespace ModulArch {
 
 class Libavformat_55 : public Module {
 public:
-	static Libavformat_55* create(const std::string &url) ;
+	static Libavformat_55* create(EventManager &eventManager, const std::string &url) ;
 	std::vector<char*>& process(std::vector<char*> &in);
+	bool handles(const std::string &url);
 	static bool canHandle(const std::string &url);
 
 private:
-	Libavformat_55(struct AVFormatContext *formatCtx);
+	Libavformat_55(EventManager &eventManager, struct AVFormatContext *formatCtx);
 	~Libavformat_55();
+
+	void newAVPacketInternal();
+	void dispatchInternal();
 
   struct AVFormatContext *formatCtx;
   struct AVPacket *pkt;

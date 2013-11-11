@@ -30,21 +30,21 @@
 
 namespace ModulArch {
 	
-File::File(FILE *file)
-	: file(file) {
+File::File(EventManager &eventManager, FILE *file)
+	: Module(eventManager), file(file) {
 }
 	
 File::~File() {
 	fclose(file);
 }
 
-File* File::create(const std::string &fn) {
+File* File::create(EventManager &eventManager, const std::string &fn) {
 	FILE *f = fopen(fn.c_str(), "rb");
 	if (!f) {
 		Log::get(Log::Error) << "Can't open file: " << fn << std::endl;
 		return NULL;
 	} else {
-		return new File(f);
+		return new File(eventManager, f);
 	}
 }
 
@@ -63,6 +63,10 @@ std::vector<char*>& File::process(std::vector<char*> &in) {
 	}
 
 	return data;
+}
+
+bool File::handles(const std::string &url) {
+	return File::canHandle(url);
 }
 
 bool File::canHandle(const std::string &url) {

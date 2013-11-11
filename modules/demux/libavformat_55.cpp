@@ -20,6 +20,10 @@
  *
  */
 
+#include <modularch/data.hpp>
+#include <modularch/event.hpp>
+#include <modularch/utils.hpp>
+
 #include "libavformat_55.hpp"
 
 #include <cassert>
@@ -32,7 +36,7 @@ extern "C" {
 
 namespace ModulArch {
 
-Libavformat_55* Libavformat_55::create(const std::string &url) {
+Libavformat_55* Libavformat_55::create(EventManager &eventManager, const std::string &url) {
 	std::ostream& errorLog = Log::get(Log::Error);
 	struct AVFormatContext *formatCtx = NULL;
 
@@ -40,33 +44,50 @@ Libavformat_55* Libavformat_55::create(const std::string &url) {
 	//TODO: custom log: av_log_set_callback(avlog);
 
 	if (!(formatCtx = avformat_alloc_context())) {
-		errorLog << "[libavinput] Can't allocate format context" << std::endl;
+		errorLog << "Module Libavformat_55: Can't allocate format context" << std::endl;
 		return NULL;
 	}
 
 	if (avformat_open_input(&formatCtx, url.c_str(), NULL, NULL))  {
-		errorLog << "[libavinput] Error when initializing the format context" << std::endl;
+		errorLog << "Module Libavformat_55: Error when initializing the format context" << std::endl;
 		return NULL;
 	}
 
-	//find the first video stream
-	//TODO: we should declare pins
-	int videoIdx = formatCtx->nb_streams;
-	for (unsigned i=0; i<formatCtx->nb_streams; i++) {
-		if ((formatCtx->streams[i]->codec->codec_type == AVMEDIA_TYPE_VIDEO) && (videoIdx == formatCtx->nb_streams)) {
-			videoIdx = i;
-		} else if (formatCtx->streams[i]->codec->codec_type == AVMEDIA_TYPE_AUDIO) {
-			//TODO
-		}
-	}
-
-	return new Libavformat_55(formatCtx);
+	return new Libavformat_55(eventManager, formatCtx);
 }
 
-Libavformat_55::Libavformat_55(struct AVFormatContext *formatCtx)
-	: formatCtx(formatCtx), pkt(new AVPacket) {
+void Libavformat_55::newAVPacketInternal() {
+  pkt = new AVPacket;
 	av_init_packet(pkt);
 	av_free_packet(pkt);
+}
+
+Libavformat_55::Libavformat_55(EventManager &eventManager, struct AVFormatContext *formatCtx)
+	: Module(eventManager), formatCtx(formatCtx) {
+	newAVPacketInternal();
+
+	for (unsigned i=0; i<formatCtx->nb_streams; i++) {
+		switch (formatCtx->streams[i]->codec->codec_type) {
+			case AVMEDIA_TYPE_VIDEO:
+			case AVMEDIA_TYPE_AUDIO:
+			case AVMEDIA_TYPE_DATA:
+			case AVMEDIA_TYPE_SUBTITLE:
+			case AVMEDIA_TYPE_ATTACHMENT:
+			{
+				AVCodec *codec = avcodec_find_decoder(formatCtx->streams[i]->codec->codec_id);
+				Event<void*> e(Event<void*>::Connection, codec->name/*toStdString(i)*/, NULL);
+				if (!getEventManager().process(e)) {
+					Log::get(Log::Error) << "Module Libavformat_55: could not connect codec \"" << formatCtx->streams[i]->codec->codec_name << "\"." << std::endl;
+				  //TODO: throw exception, or ignore, or ...
+				}
+				//FIXME: no way to remove it from libav API? avcodec_close(codec);
+				break;
+			}
+			default:
+				assert(0);
+				continue;
+		}
+	}
 }
 
 Libavformat_55::~Libavformat_55() {
@@ -74,6 +95,13 @@ Libavformat_55::~Libavformat_55() {
 		avformat_close_input(&formatCtx);
 	}
 	delete pkt;
+}
+
+void Libavformat_55::dispatchInternal() {
+	typedef Data<AVPacket> T;
+	T *data = new T(pkt->data, pkt->size, av_free_packet, pkt);
+	Event<T*> e(Event<T*>::Dispatch, toStdString(pkt->stream_index), data);
+	newAVPacketInternal();
 }
 
 std::vector<char*>& Libavformat_55::process(std::vector<char*> &in) {
@@ -101,13 +129,16 @@ std::vector<char*>& Libavformat_55::process(std::vector<char*> &in) {
 			}
 		}
 
-		//TODO: dispatch to the right pin
-		in.resize(pkt->size);
-		av_free_packet(pkt);
+		//dispatch to the right pin
+		dispatchInternal();
 		break;
 	}
 
 	return in;
+}
+
+bool Libavformat_55::handles(const std::string &url) {
+	return Libavformat_55::canHandle(url);
 }
 
 bool Libavformat_55::canHandle(const std::string &url) {
@@ -119,7 +150,7 @@ bool Libavformat_55::canHandle(const std::string &url) {
 
 	FILE *f = fopen(url.c_str(), "rb");
 	if (!f) {
-		Log::get(Log::Warning) << "[libavinput] Couldn't open URL " << url.c_str() << " for probing. Aborting." << std::endl;
+		Log::get(Log::Warning) << "Module Libavformat_55: Couldn't open URL " << url.c_str() << " for probing. Aborting." << std::endl;
 		delete[] pd.buf;
 		return false;
 	}
@@ -127,7 +158,7 @@ bool Libavformat_55::canHandle(const std::string &url) {
 	pd.buf_size = (int)bytesRead;
 	fclose(f);
 	if (bytesRead<size) {
-		Log::get(Log::Warning) << "[libavinput] Could only read " << bytesRead << "bytes (instead of " << size << ") for probing format." << std::endl;
+		Log::get(Log::Warning) << "Module Libavformat_55: Could only read " << bytesRead << "bytes (instead of " << size << ") for probing format." << std::endl;
 	}
 	memset(pd.buf+bytesRead, 0, AVPROBE_PADDING_SIZE);
 

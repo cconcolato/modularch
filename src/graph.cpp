@@ -22,6 +22,8 @@
 
 #include "graph.hpp"
 
+#include "event.hpp"
+
 //FIXME: hardcoded -> module manager needed
 #include "modules/in/file.hpp"
 #include "modules/demux/gpac_mp4_simple.hpp"
@@ -34,8 +36,8 @@ Graph::Graph() {
 }
 	
 Graph::~Graph() {
-	for (auto module=modules.begin(); module!=modules.end(); ++module) {
-		delete (*module);
+	for (auto eventManager=eventManagers.begin(); eventManager!=eventManagers.end(); ++eventManager) {
+		delete (*eventManager);
 	}
 }
 
@@ -45,16 +47,16 @@ Graph* Graph::create() {
 
 bool Graph::run(const bool sync) {
 	if (!sync) {
-		//TODO
+		//TODO: async
 		return false;
 	} else {
-		std::vector<char*> data;
-		do {
-			data.clear();
-			for (auto module=modules.begin(); module!=modules.end(); ++module) {
-				data = (*module)->process(data);
-			}
-		} while (data.size());
+		Event<void*> e(Event<void*>::Process, "", NULL);
+		for (auto eventManager=eventManagers.begin(); eventManager!=eventManagers.end(); ++eventManager) {
+			bool res;
+			do {
+				res = (*eventManager)->process(e);
+			} while (res);
+		}
 	}
 
 	return true;
@@ -63,20 +65,20 @@ bool Graph::run(const bool sync) {
 void Graph::stop() {
 }
 
-bool Graph::createModule(const std::string &url) {
+bool Graph::createModule(EventManager &eventManager, const std::string &url) {
 	if (GPAC_MP4_Simple::canHandle(url)) {
-		return addModule(GPAC_MP4_Simple::create(url));
+		return addModule(GPAC_MP4_Simple::create(eventManager, url));
 	} else if (Libavformat_55::canHandle(url)) {
-		return addModule(Libavformat_55::create(url));
+		return addModule(Libavformat_55::create(eventManager, url));
 	} else if (File::canHandle(url)) {
-		return addModule(File::create(url));
+		return addModule(File::create(eventManager, url));
 	} else {
 		return false;
 	}
 }
 
 bool Graph::addModule(Module *module) {
-	modules.push_back(module);
+	eventManagers.insert(&module->getEventManager());
 	return true;
 }
 

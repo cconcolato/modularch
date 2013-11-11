@@ -4,11 +4,11 @@
     <Filter Include="in">
       <UniqueIdentifier>{3ac29ec3-1fdc-4dcf-8d37-8a9c6f7ffd93}</UniqueIdentifier>
     </Filter>
-    <Filter Include="demux">
-      <UniqueIdentifier>{a0799ea8-91cc-4951-a055-98aa1de75b5e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="decode">
       <UniqueIdentifier>{dccd5e1f-41ff-4064-893d-d8e692d8f274}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="demux">
+      <UniqueIdentifier>{323d2975-80ae-4acf-81f7-a21c1e17b248}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

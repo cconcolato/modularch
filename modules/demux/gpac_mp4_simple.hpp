@@ -36,12 +36,13 @@ namespace ModulArch {
 
 class GPAC_MP4_Simple : public Module {
 public:
-	static GPAC_MP4_Simple* create(const std::string &fn) ;
+	static GPAC_MP4_Simple* create(EventManager &eventManager, const std::string &fn) ;
 	std::vector<char*>& process(std::vector<char*> &in);
+	bool handles(const std::string &url);
 	static bool canHandle(const std::string &url);
 
 private:
-	GPAC_MP4_Simple(GF_ISOFile *movie);
+	GPAC_MP4_Simple(EventManager &eventManager, GF_ISOFile *movie);
 	~GPAC_MP4_Simple();
 
 	void deleteLastSample();

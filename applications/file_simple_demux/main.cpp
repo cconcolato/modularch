@@ -39,22 +39,27 @@ int main(int argc, char **argv)
 	}
 	fn = argv[1];
 
-	//create a graph
+	//create a graph (global application)
 	ModulArch::Graph *graph = ModulArch::Graph::create();
 	if (!graph) {
 		ModulArch::Log::get(ModulArch::Log::Error) << "Can't create graph" << std::endl;
 		return 1;
 	}
 
-	//create modules from built-ins
-	if (!graph->createModule(fn)) {
-		ModulArch::Log::get(ModulArch::Log::Error) << "Can't create a module for " << fn.c_str() << std::endl;
+	//create an event manager (handles events of a sub graph)
+	ModulArch::EventManager *eventManager = ModulArch::EventManager::create();
+
+	//Add modules from right (renderers) to left (sources)
+
+	//add custom module
+	if (!graph->addModule(ModulArch::PrintModule::create(*eventManager))) {
+		ModulArch::Log::get(ModulArch::Log::Error) << "Can't add PrintModule to the graph" << std::endl;
 		return 1;
 	}
 
-	//add custom module
-	if (!graph->addModule(ModulArch::PrintModule::create())) {
-		ModulArch::Log::get(ModulArch::Log::Error) << "Can't add PrintModule to the graph" << std::endl;
+	//create modules from built-ins
+	if (!graph->createModule(*eventManager, fn)) {
+		ModulArch::Log::get(ModulArch::Log::Error) << "Can't create a module for " << fn.c_str() << std::endl;
 		return 1;
 	}
 	

@@ -32,12 +32,13 @@ namespace ModulArch {
 
 class File : public Module {
 public:
-	static File* create(const std::string &fn);
+	static File* create(EventManager &eventManager, const std::string &fn);
 	std::vector<char*>& process(std::vector<char*> &in);
+	bool handles(const std::string &url);
 	static bool canHandle(const std::string &url);
 
 private:
-	File(FILE *file);
+	File(EventManager &eventManager, FILE *file);
 	~File();
 
 	FILE *file;

@@ -25,21 +25,30 @@
 
 #include "config.hpp"
 
-//#include <string>
+#include <queue>
 #include <vector>
 
 
 namespace ModulArch {
 
+class EventManager;
+
 class EXPORT Module {
 public:
+	Module(EventManager &eventManager);
+
 	/**
 	 * The data is allocated here when needed, and deleted here once used. FIXME: move to an allocator.
 	 * Return true when data were processed.
 	 */
 	virtual std::vector<char*>& process(std::vector<char*> &in) = 0;
+	virtual bool handles(const std::string &url) = 0;
+	
+	EventManager& getEventManager() const;
 
-	//FIXME: static virtual bool canHandle(const std::string &url) = 0;
+private:
+	EventManager &eventManager;
+	//std::queue<void/*Romain: FIXME*/> input; //TODO: change process above
 };
 
 }
